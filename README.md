@@ -38,7 +38,7 @@ O presente trabalho, tem como objetivo implementar computacionalmente uma metodo
 
 O modelo petrofísico se traduz matematicamente em um conjunto de equações, algumas lineares e outras não-lineares, que envolvem variáveis de entrada (sejam perfis medidos ou parâmetros determinados a partir de ensaios experimentais) e variáveis de saída que se quer determinar. Esse conjunto de equações é resolvido para cada passo de profundidade do poço, visto que as medidas dos perfis variam com a profundidade.
 
-Após diversos testes e tentativas, optou-se por uma implementação que segue a seguinte filosofia:
+Após diversos testes e tentativas, optou-se por uma implementação que segue a seguinte filosofia geral. O modelo é tratado como um problema direto, em que são feitas simulações Monte-Carlo (MC) atribuindo distribuições para todos os parâmetros e perfis de entrada pertinentes. Para cada simulação, são calculadas saídas que devem obedecer a certos critérios de aceitabilidade: (a) conservação do conteúdo de cloro, cuja violação inclusive antecipa o fim da simulação MC; (b) propriedades calculadas de porosidade total, densidade *bulk* e perfil Sigma devem ser iguais aos valores medidos dos respectivos perfis, se disponíveis, dentro de uma certo intervalo de confiança. Por exemplo, em uma dada profundidade a porosidade total medida pelo T2 RMN foi de 15 pu; admitindo um intervalo de confiança de $\pm$ 1pu, porosidades calculadas no intervalo 14 $\emdash$ 16 pu validam as entradas da simulação. 
 
 ### 3. Resultados
 
