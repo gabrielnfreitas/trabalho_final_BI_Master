@@ -59,13 +59,18 @@ O código foi escrito no estilo de programação orientada a objeto, de forma a 
 5. **petrofisica_fluido_perf** &ndash; carrega propriedades experimentais de densidade em função de diferentes condições *p* e *T* para filtrados fluidos de perfuração típicos. Possui método para calcular densidade e &Sigma; do filtrado em função de *p* e *T*, além de método para calcular salinidade efetiva de fluidos sintéticos em função dos resultados da retorta e titulação de cloretos.
 6. **modelo_petrofisica** &ndash; é a classe que recebe todos os dados de água, óleo e filtrado, além dos perfis e demais parâmetros de entrada, para a execução de diferentes modelos, dentre os quais o modelo objeto deste trabalho. Entre outros, possui métodos para carregar as distribuições de cada *input* e verificar se todos os *inputs* necessários para rodar o modelo estão presentes e com as devidas unidades. A execução de cada modelo apresenta parâmetros adicionais próprios, como por exemplo a profundidade do contato óleo/água, para definir as regras de mistura do filtrado com fluido da formação.
 
-Dentro do método correspondente ao modelo na classe **modelo_petrofisica**, os resultados para cada profundidade são guardados em função do índice (profundidade), que ao final são devidamente concatenados e retornados como DataFrames. Cada propriedade de interesse é exportada em três colunas, correspondentes aos percentis P10, P50 e P90.
+Dentro do método correspondente ao modelo na classe **modelo_petrofisica**, os resultados para cada profundidade são guardados em função do índice (profundidade), que ao final são devidamente concatenados e retornados como DataFrames. Cada propriedade de interesse é exportada em cinco colunas, correspondentes à média, desvio-padrão e aos percentis P10, P50 e P90.
 
 ### 3. Resultados
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar nisl vestibulum tortor fringilla, eget imperdiet neque condimentum. Proin vitae augue in nulla vehicula porttitor sit amet quis sapien. Nam rutrum mollis ligula, et semper justo maximus accumsan. Integer scelerisque egestas arcu, ac laoreet odio aliquet at. Sed sed bibendum dolor. Vestibulum commodo sodales erat, ut placerat nulla vulputate eu. In hac habitasse platea dictumst. Cras interdum bibendum sapien a vehicula.
 
 Proin feugiat nulla sem. Phasellus consequat tellus a ex aliquet, quis convallis turpis blandit. Quisque auctor condimentum justo vitae pulvinar. Donec in dictum purus. Vivamus vitae aliquam ligula, at suscipit ipsum. Quisque in dolor auctor tortor facilisis maximus. Donec dapibus leo sed tincidunt aliquam.
+
+<div align="left">
+<img src="imgs/IP_aba_curves.PNG" width="50%">
+</div>
+<br>
 
 ### 4. Conclusões
 
