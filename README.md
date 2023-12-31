@@ -38,7 +38,7 @@ O presente trabalho, tem como objetivo implementar computacionalmente uma metodo
 
 O modelo petrofísico se traduz matematicamente em um conjunto de equações, algumas lineares e outras não-lineares, que envolvem múltiplas variáveis de entrada (sejam perfis medidos ou parâmetros determinados a partir de ensaios experimentais) e variáveis de saída que se quer determinar. Esse conjunto de equações é resolvido para cada passo de profundidade do poço, visto que as medidas dos perfis variam com a profundidade.
 
-Após diversos testes e tentativas, optou-se por uma implementação que segue a seguinte filosofia geral. O modelo é tratado como um problema direto, em que são feitas simulações Monte-Carlo (MC) atribuindo distribuições para todos os parâmetros e perfis de entrada pertinentes. Para cada simulação, são calculadas saídas que devem obedecer a certos critérios de aceitabilidade: **(a)** conservação do conteúdo de cloro (y<sub>Cl</sub>); **(b)** propriedades calculadas de porosidade total (&Phi<sub>T</sub>), densidade *bulk* (&rho;<sub>b</sub>) e perfil Sigma (&Sigma;<sub>f</sub>) devem ser iguais aos valores medidos dos respectivos perfis, se disponíveis, dentro de uma certo intervalo de confiança. Por exemplo, em uma dada profundidade a porosidade total medida pelo T2 RMN foi de 15 pu; admitindo um intervalo de confiança de $\pm$ 1pu, porosidades calculadas no intervalo 14 &ndash; 16 pu validam as entradas da simulação. Os dados das simulações que obedeceram aos critérios de aceitabilidade são armazenados ao longo do processo a avaliados *a posteriori* para obter os percentis de probabilidade, tipicamente P10, P50 e P90, para as propriedades avaliadas S2 e IH.
+Após diversos testes e tentativas, optou-se por uma implementação que segue a seguinte filosofia geral. O modelo é tratado como um problema direto, em que são feitas simulações Monte-Carlo (MC) atribuindo distribuições para todos os parâmetros e perfis de entrada pertinentes. Para cada simulação, são calculadas saídas que devem obedecer a certos critérios de aceitabilidade: **(a)** conservação do conteúdo de cloro (y<sub>Cl</sub>); **(b)** propriedades calculadas de porosidade total ( &Phi;<sub>T</sub> ), densidade *bulk* (&rho;<sub>b</sub>) e perfil Sigma (&Sigma;<sub>f</sub>) devem ser iguais aos valores medidos dos respectivos perfis, se disponíveis, dentro de uma certo intervalo de confiança. Por exemplo, em uma dada profundidade a porosidade total medida pelo T2 RMN foi de 15 pu; admitindo um intervalo de confiança de $\pm$ 1pu, porosidades calculadas no intervalo 14 &ndash; 16 pu validam as entradas da simulação. Os dados das simulações que obedeceram aos critérios de aceitabilidade são armazenados ao longo do processo a avaliados *a posteriori* para obter os percentis de probabilidade, tipicamente P10, P50 e P90, para as propriedades avaliadas S2 e IH.
 
 Em resumo, para cada profundidade em que o modelo é rodado, são rodadas *__N__* simulações MC onde cada variável de entrada é sorteada aleatoriamente segundo uma dada distribuição. Para cada simulação, diversas saídas são calculadas, como y<sub>Cl</sub>, &Phi<sub>T</sub>, &rho;<sub>b</sub>, &Sigma;<sub>f</sub>, S2 e IH. Se houver *__N<sub>v</sub>__ &le; N* simulações com resultados considerados válidos, então haverá *__N<sub>v</sub>__* valores válidos de S2 e IH, a partir do qual serão calculados respectivamente os percentis P10, P50 e P90 para aquela profundidade. Ao se aplicar o processo para todas as profundidades avaliadas, obtêm-se então curvas de probabilidade (na realidade são vetores, mas que normalmente são representados por linhas suaves em um gráfico cujo eixo vertical é a profundidade) para S2 e IH, que é o resultado final.
 
@@ -64,17 +64,39 @@ Dentro do método correspondente ao modelo na classe **modelo_petrofisica**, os 
 A metodologia foi aplicada em um poço para o qual havia amostras de água e óleo analisados, assim como alguns resultados de geoquímica orgânica (pirólise Rock-Eval) e resultados experimentais de corte T2 RMN para amostras no reservatório de óleo. No entanto, não havia informações confiáveis disponíveis acerca da salinidade do fluido de perfuração, que foi um fluido de base sintética. Nesse caso, foi adotada a seguinte estratégia metodológica:
 
 <ol type="A">
-  <li>**Calibração**: simulação em reservatório com óleo, cuja saturação de água S<sub>w</sub> é estimada com razoável confiabilidade a partir do perfil de T2 RMN e a presença de matéria orgânica pode ser desprezada. A principal informação a ser obtida nessa etapa é a de salinidade do fluido de perfuração.</li>
+  <li> Calibração : simulação em reservatório com óleo, cuja saturação de água S<sub>w</sub> é estimada com razoável confiabilidade a partir do perfil de T2 RMN e a presença de matéria orgânica pode ser desprezada. A principal informação a ser obtida nessa etapa é a de salinidade do fluido de perfuração.</li>
   
-  <li>**Verificação**: Utilização da salinidade da lama obtida na calibração em simulações em reservatórios portadores de água, com conteúdo também desprezível de MO. A ideia é verificar se as saturações obtidas estão petrofisicamente razoáveis. </li>
+  <li> Verificação : Utilização da salinidade da lama obtida na calibração em simulações em reservatórios portadores de água, com conteúdo também desprezível de MO. A ideia é verificar se as saturações obtidas estão petrofisicamente razoáveis. </li>
   
-  <li>**Aplicação**: Aplicação efetiva do modelo nos intervalos com suspeita de presença de matéria orgânica.</li>
+  <li> Aplicação: Aplicação efetiva do modelo nos intervalos com suspeita de presença de matéria orgânica para obtenção das curvas de COT, S2 e IH.</li>
 </ol>
 
 ### 3. Resultados
 
-O poço escolhido teve seis intervalos estudados. Para calibração, foi utilizado o intervalo _res_o_altophi_, portador de hidrocarboneto. Para verificação, foram utilizados os intervalos _res_w_altophi_ e _res_w_baixophi_, reservatórios portadores de água porém invadidos com filtrado base oleosa. Por fim, a aplicação abrangeu três intervalos de folhelhos (superior, intermediário e inferior), que são intercalados com os reservatórios de água. 
+O poço escolhido teve seis intervalos estudados. Para calibração, foi utilizado o intervalo _res_o_altophi_, portador de hidrocarboneto. Para verificação, foram utilizados os intervalos _res_w_altophi_ e _res_w_baixophi_, reservatórios portadores de água porém invadidos com filtrado base oleosa. Por fim, a aplicação abrangeu três intervalos de folhelhos (superior, intermediário e inferior), que são intercalados com os reservatórios de água. Em todos os casos, o critério de aceitabilidade dos resultados simulados foi de &Phi;<sub>T</sub> &plusmn; 1,5 pu e &rho;<sub>b</sub> &plusmn; 0,015 g/cc. 
 
+A configuração do modelo para a etapa de calibração e simulação foram executadas pelo código abaixo, como exemplo. As estimativas de saturação mínima e máxima foram geradas pelo perfil T2 RMN, enquanto os valores de salinidade mínimo e máximo de água foram obtidos a partir dos dados expeirmentais carregados no objeto "agua". Foram testadas salinidades salinidades de 75 a 110 kppm equivalente de NaCl.
+
+```python
+df_calib=df_trat.loc[df_trat.Intervalo=='res_o_altophi']
+calib_res=modelo_petrofisica(prof_idx=df_calib.index,oleo=oleo,lama=lama,agua=agua,unidade_T='C',unidade_p='psi')
+calib_res.load_param('T',dist='uniforme',min=df_calib["T_min"],max=df_calib['T_max'])
+calib_res.load_param('p',valor=df_calib["p"])
+calib_res.load_param('phi',dist="uniforme",med=df_calib['PHIT'],delta=0.015)
+calib_res.load_param('rhob',dist="uniforme",med=df_calib['RHOB'],delta=0.015)
+calib_res.load_param('sal_w',dist="uniforme",min=salin_stats_agua['min'],max=salin_stats_agua['max'])
+calib_res.load_param('Sw',dist='uniforme',min=df_calib["Sw_min"],max=df_calib["Sw_max"])
+calib_res.load_param('rhomin',dist='normal',med=df_calib["RHOMIN"],desvpad=0.05)
+calib_res.load_param('yH',dist='normal',med=df_calib["CHY"],desvpad=0.01)
+calib_res.load_param('yCl',dist='normal',med=df_calib["CCHL"],desvpad=0.01)
+calib_res.load_param('sal_mud',dist='uniforme',min=75,max=110)
+calib_res.load_param('COTd',valor=0)
+calib_res.load_param('K',dist='triangular',med=df_calib["K"],delta=0.001)
+calib_res.load_param('FY2W',dist='normal',med=df_calib["FY2W"],desvpad=0.2)
+
+calib_res.preparacao_modelo(calculo="salin_from_LGQ",MC_steps=20000,ferramenta='ECS')
+resultados=calib_res.composicional_LGQ(contatoOA,n_jobs=-1)
+```
 
 <div align="left">
 <img src="BIMaster_calibração.png" width="100%">
