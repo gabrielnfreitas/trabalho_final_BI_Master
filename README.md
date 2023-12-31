@@ -61,9 +61,20 @@ O código foi escrito no estilo de programação orientada a objeto, de forma a 
 
 Dentro do método correspondente ao modelo na classe **modelo_petrofisica**, os resultados para cada profundidade são guardados em função do índice (profundidade), que ao final são devidamente concatenados e retornados como DataFrames. Cada propriedade de interesse é exportada em cinco colunas, correspondentes à média, desvio-padrão e aos percentis P10, P50 e P90.
 
+A metodologia foi aplicada em um poço para o qual havia amostras de água e óleo analisados, assim como alguns resultados de geoquímica orgânica (pirólise Rock-Eval) e resultados experimentais de corte T2 RMN para amostras no reservatório de óleo. No entanto, não havia informações confiáveis disponíveis acerca da salinidade do fluido de perfuração, que foi um fluido de base sintética. Nesse caso, foi adotada a seguinte estratégia metodológica:
+
+<ol type="A">
+  <li>**Calibração**: simulação em reservatório com óleo, cuja saturação de água S<sub>w</sub> é estimada com razoável confiabilidade a partir do perfil de T2 RMN e a presença de matéria orgânica pode ser desprezada. A principal informação a ser obtida nessa etapa é a de salinidade do fluido de perfuração.</li>
+  
+  <li>**Verificação**: Utilização da salinidade da lama obtida na calibração em simulações em reservatórios portadores de água, com conteúdo também desprezível de MO. A ideia é verificar se as saturações obtidas estão petrofisicamente razoáveis. </li>
+  
+  <li>**Aplicação**: Aplicação efetiva do modelo nos intervalos com suspeita de presença de matéria orgânica.</li>
+</ol>
+
 ### 3. Resultados
 
-A metodologia foi aplicada em um poço para o qual havia amostras de água e óleo analisados, assim como alguns resultados de geoquímica orgânica (pirólise Rock-Eval) e resultados experimentais de corte T2 RMN para amostras no reservatório de óleo. No entanto, não havia informações confiáveis disponíveis acerca da salinidade do fluido de perfuração, que foi um fluido de base sintética. 
+O poço escolhido teve seis intervalos estudados. Para calibração, foi utilizado o intervalo _res_o_altophi_, portador de hidrocarboneto. Para verificação, foram utilizados os intervalos _res_w_altophi_ e _res_w_baixophi_, reservatórios portadores de água porém invadidos com filtrado base oleosa. Por fim, a aplicação abrangeu três intervalos de folhelhos (superior, intermediário e inferior), que são intercalados com os reservatórios de água. 
+
 
 <div align="left">
 <img src="BIMaster_calibração.png" width="100%">
