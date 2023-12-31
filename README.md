@@ -75,7 +75,7 @@ A metodologia foi aplicada em um poço para o qual havia amostras de água e ól
 
 O poço escolhido teve seis intervalos estudados. Para calibração, foi utilizado o intervalo _res_o_altophi_, portador de hidrocarboneto. Para verificação, foram utilizados os intervalos _res_w_altophi_ e _res_w_baixophi_, reservatórios portadores de água porém invadidos com filtrado base oleosa. Por fim, a aplicação abrangeu três intervalos de folhelhos (superior, intermediário e inferior), que são intercalados com os reservatórios de água. Em todos os casos, o critério de aceitabilidade dos resultados simulados foi de &Phi;<sub>T</sub> &plusmn; 1,5 pu e &rho;<sub>b</sub> &plusmn; 0,015 g/cc. 
 
-A configuração do modelo para a etapa de calibração e simulação foram executadas pelo código abaixo, como exemplo. As estimativas de saturação mínima e máxima foram geradas pelo perfil T2 RMN, enquanto os valores de salinidade mínimo e máximo de água foram obtidos a partir dos dados expeirmentais carregados no objeto "agua". Foram testadas salinidades salinidades de 75 a 110 kppm equivalente de NaCl.
+A configuração do modelo para a etapa de calibração e simulação foram executadas pelo código abaixo, como exemplo. As estimativas de saturação mínima e máxima foram geradas pelo perfil T2 RMN, enquanto os valores de salinidade mínimo e máximo de água foram obtidos a partir dos dados expeirmentais carregados no objeto "agua". Foram testadas salinidades de 75 a 110 kppm equivalente de NaCl.
 
 ```python
 df_calib=df_trat.loc[df_trat.Intervalo=='res_o_altophi']
@@ -98,6 +98,7 @@ calib_res.preparacao_modelo(calculo="salin_from_LGQ",MC_steps=20000,ferramenta='
 resultados=calib_res.composicional_LGQ(contatoOA,n_jobs=-1)
 ```
 
+Os resultados obtidos são exibidos na figura abaixo. O resultado de salinidade da lama está na última trilha, com a curva correspondente à mediana dos resultados e a faixa cinza abrangendo os percentis P10 a P90. 
 <div align="left">
 <img src="BIMaster_calibração.png" width="100%">
 </div>
