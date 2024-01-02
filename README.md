@@ -11,9 +11,7 @@ Trabalho apresentado ao curso [BI MASTER](https://ica.puc-rio.ai/bi-master) como
 
 ### Resumo
 
-<!-- trocar o texto abaixo pelo resumo do trabalho, em português -->
-
-Lorem ipsum dolor 
+Esse trabalho consiste no desenvolvimento de implementação de um modelo petrofísico que permitiu tratar em escala de poço o problema da caracterização da matéria orgânica (MO) em intervalos de rochas potencialmente geradoras de hidrocarbonetos, que é essencial para o entendimento do sistema petrolífero, como subsídio para entender os processos de geração e de acumulação do petróleo. As propriedades avaliadas foram o conteúdo de carbono orgânico total (COT), potencial de geração de óleo (S2) e índice de hidrogênio (IH). A parte principal do modelo consiste em um conjunto de equações, algumas lineares e outras não-lineares, que envolvem múltiplas variáveis de entrada (sejam perfis medidos ou parâmetros determinados a partir de ensaios experimentais) e variáveis de saída que se quer determinar. Esse conjunto de equações é resolvido para cada passo de profundidade do poço, visto que as medidas dos perfis variam com a profundidade. Na presente implementação, empregou-se uma abordagem direta e paralelização do código por cada profundidade. No poço testado, foi estabelecido um *workflow* de trabalho divido em etapas de calibração, verificação e aplicação, com estimativas finais de parâmetros geoquímicos compatíveis com as medidas experimentais em rochas e com o comportamento petrofísico esperado. A velocidade média de cálculo, utilizando um notebook de configurações medianas, foi de 0,85 segundos por passo de profundidade por 10 mil simulações. Por exemplo, a simulação um intervalo de 200m com passo de 3 x 0,1524m e 20 mil simulações MC demora cerca de 12 a 13 minutos, o que pode ser considerado como compatível com a rotina de trabalho, considerando ainda que normalmente esses cálculos são realizados em estações com configurações de *hardware* mais robustas.
 
 ### 1. Introdução
 
@@ -174,9 +172,7 @@ A velocidade do cálculo depende tanto da máquina utilizada quanto dos dados em
 
 ### 4. Conclusões
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar nisl vestibulum tortor fringilla, eget imperdiet neque condimentum. Proin vitae augue in nulla vehicula porttitor sit amet quis sapien. Nam rutrum mollis ligula, et semper justo maximus accumsan. Integer scelerisque egestas arcu, ac laoreet odio aliquet at. Sed sed bibendum dolor. Vestibulum commodo sodales erat, ut placerat nulla vulputate eu. In hac habitasse platea dictumst. Cras interdum bibendum sapien a vehicula.
-
-Proin feugiat nulla sem. Phasellus consequat tellus a ex aliquet, quis convallis turpis blandit. Quisque auctor condimentum justo vitae pulvinar. Donec in dictum purus. Vivamus vitae aliquam ligula, at suscipit ipsum. Quisque in dolor auctor tortor facilisis maximus. Donec dapibus leo sed tincidunt aliquam.
+O modelo petrofísico desenvolvido nesse trabalho permitiu, com razoável grau de precisão, estimar propriedades como carbono orgânico total, S2 e índice de hidrogênio para intervalos de folhelho para os quais se desejava caracterizar o potencial gerador no poço de exemplo. A estratégia adotada de calibração de parâmetros desconhecidos, particularmente da salinidade do fluido de perfuração sintético, em um intervalo reservatório portador de hidrocarbonetos foi bem-sucedida. Apesar de ser possível otimizar a performance do código, os tempos de cálculo das simulações foram considerados como compatíveis com a rotina de trabalho petrofísica, de maneira que o código tem potencial para ser colocado em produção no trabalho de rotina. 
 
 ---
 
