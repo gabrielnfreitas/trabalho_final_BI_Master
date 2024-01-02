@@ -98,11 +98,46 @@ calib_res.preparacao_modelo(calculo="salin_from_LGQ",MC_steps=20000,ferramenta='
 resultados=calib_res.composicional_LGQ(contatoOA,n_jobs=-1)
 ```
 
-Os resultados obtidos são exibidos na figura abaixo. O resultado de salinidade da lama está na última trilha, com a curva correspondente à mediana dos resultados e a faixa cinza abrangendo os percentis P10 a P90. 
+Os resultados obtidos para a calibração são exibidos na figura abaixo. O resultado de salinidade da lama está na última trilha, com a curva correspondente à mediana dos resultados e a faixa cinza abrangendo os percentis P10 a P90.
+
 <div align="left">
 <img src="BIMaster_calibração.png" width="100%">
 </div>
 <br>
+
+A salinidade média da lama calculada nesse intervalo foi de 95 kppm NaCl equivalente. Aplicando a equação abaixo de propagação de incertezas, considerando que os resultados de cada profundidade são independentes entre si, fornece um desvio padrão para a média $`\sigma_m = 0,67`$ kppm NaCl equivalente.
+
+$`\sigma_m = \frac{1}{n} \sqrt{\sum_i{\sigma_i^2}}`$
+
+A execução da etapa de verificação foi feita pelo seguinte código
+
+```python
+df_aplic=df_trat.loc[df_trat.Intervalo.isin(['flh_sup','flh_mid','flh_inf','res_w_altophi','res_w_baixophi'])]
+aplic_res=modelo_petrofisica(prof_idx=df_aplic.index,oleo=oleo,lama=lama,agua=agua,unidade_T='C',unidade_p='psi')
+aplic_res.load_param('T',dist='uniforme',min=df_aplic["T_min"],max=df_aplic['T_max'])
+aplic_res.load_param('p',valor=df_aplic["p"])
+aplic_res.load_param('phi',dist="uniforme",med=df_aplic['PHIT'],delta=0.015)
+aplic_res.load_param('rhob',dist="uniforme",med=df_aplic['RHOB'],delta=0.015)
+aplic_res.load_param('sal_w',dist="uniforme",min=salin_stats_agua['min'],max=salin_stats_agua['max'])
+aplic_res.load_param('Sw',dist='uniforme',min=df_aplic["Sw_min"],max=1) ## ATENCAO NESSA LINHA
+aplic_res.load_param('rhomin',dist='normal',med=df_aplic["RHOMIN"],desvpad=0.05)
+aplic_res.load_param('yH',dist='normal',med=df_aplic["CHY"],desvpad=0.01)
+aplic_res.load_param('yCl',dist='normal',med=df_aplic["CCHL"],desvpad=0.01)
+aplic_res.load_param('sal_mud',dist='normal',med=95,desvpad=0.67)
+aplic_res.load_param('K',dist='triangular',med=df_aplic["K"],delta=0.001)
+aplic_res.load_param('FY2W',dist='normal',med=df_aplic["FY2W"],desvpad=0.2)
+
+aplic_res.preparacao_modelo(calculo="salin_from_LGQ",MC_steps=10000,ferramenta='ECS')
+resultados_aplic=aplic_res.composicional_LGQ(contatoOA,n_jobs=-1)
+```
+
+cujos resultados obtidos são exibidos na figura abaixo. O comportamento observado de baixas saturações (S<sub>w</sub> = 20 &ndash; 40%) no reservatório superior, constrastando com saturações mais elevadas e com maiores incertezas no reservatório inferior são razoáveis do ponto de vista petrofísico, considerando suas respectivas permoporosidades.
+
+<div align="left">
+<img src="BIMaster_verificação.png" width="100%">
+</div>
+<br>
+
 
 ### 4. Conclusões
 
