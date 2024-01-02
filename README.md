@@ -170,6 +170,7 @@ Os resultados obtidos são exibidos na figura abaixo, em que as últimas três c
 </div>
 <br>
 
+A velocidade do cálculo depende tanto da máquina utilizada quanto dos dados em si (velocidade de convergência / finalização prematura). Na média, utilizando um notebook de configurações medianas (processador Intel i5 1,60 GHz, 4 núcleos e 8 processadores lógicos, 16 GB RAM, HD SSD), a velocidade média de simulação foi de 0,85 segundos por passo de profundidade por 10 mil simulações. Por exemplo, a simulação um intervalo de 200m com passo de 3 x 0,1524m e 20 mil simulações MC demora cerca de 12 a 13 minutos, o que pode ser considerado como razoável, considerando ainda que normalmente esses cálculos são realizados em estações de trabalho com configurações de hardware mais robustas.
 
 ### 4. Conclusões
 
